@@ -41,6 +41,11 @@ def send_fonts(path):
     return send_from_directory('static/fonts', path)
 
 
+@app.route('/fonts/<path:path>')
+def send_fonts2(path):
+    '''serving font files'''
+    return send_from_directory('static/fonts', path)
+
 @app.route('/css/<path:path>')
 def send_css(path):
     '''serving css files'''

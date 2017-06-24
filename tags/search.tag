@@ -17,14 +17,14 @@ search
                     label Statistics
     div.row#playerstats
         div.col.s12
-            div.row
-                div.col.s2
-                    h5 Username
-                div.col.s2(each="{stat in selectedstat}")
-                    h5 {stat}
+            div.row(style="border-bottom: 1px solid black;")
+                div.col.s1
+                    span(style="font-weight: bold;") Username
+                div.col.s1(each="{stat in selectedstat}")
+                    span(style="font-weight: bold;") {stat}
             div.row(each="{id,playerdata in playerData}")
-                div.col.s2 {playerdata['Username']}
-                div.col.s2(each="{stat in selectedstat}") {playerdata[stat]}
+                div.col.s1 {playerdata['Username']}
+                div.col.s1(each="{stat in selectedstat}") {playerdata[stat]}
     script(type="text/coffeescript").
         self = @
         self.autocompletedata = {}
@@ -33,7 +33,11 @@ search
             "kd_ratio": true,
             "Kills": true,
             "Deaths": true,
-            "Donator": true
+            "Donator": true,
+            "Arrests": true,
+            "Times arrested": true,
+            "SWAT": true,
+            "Coprank": true
         }
         self.playerSelected = ""
         self.playerData = {}
