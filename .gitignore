@@ -1,0 +1,4 @@
+.idea/*
+static/js/tags.js
+node_modules/*
+conf.json

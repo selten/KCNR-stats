@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Example configuration</title>
+        <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAeElEQVQ4jcXUWQrAIAwEUO9/trmGucb0owRaa0xaByoExOWJWxoA9t4lAYDNK7sFAM3sBL1hByN5B7+i1zkP8C06jp2CVXQ2JgQzNOpbgtHE1UIpOALZUZRAhyrn+g8o3bL0UqTPRvqwpV9Pmhyk6UuaYL2iCAA8AGYeDK9s+N2qAAAAAElFTkSuQmCC">
+        <link rel="stylesheet" href="css/material-icons.css">
+        <link rel="stylesheet" href="css/materialize.min.css">
+
+        <script src="js/vendors.js"></script>
+        <script src="js/tags.js?q=%s"></script>
+    </head>
+    <body>
+        <top-menu-tag></top-menu-tag>
+        <div id="main"></div>
+
+        <script>
+        var link = riot.observable();
+        riot.mount('top-menu-tag', {obs: link});
+        currentTag = null;
+        //=========================================================
+        mount = function(tag, options) {
+            //this is a helper function to mount tags according to routs.
+            $('body').css('overflow', 'auto');
+            currentTag && currentTag.unmount(true);
+            currentTag = riot.mount("#main", tag, options)[0];
+        };//=========================================================
+
+        riot.route("/", function() {
+            //riot.route('Projects_handler');
+            mount('overview', {obs: link});
+        });
+        //an implementation of the router system...
+        riot.route.start(true);
+
+        </script>
+    </body>
+</html>
