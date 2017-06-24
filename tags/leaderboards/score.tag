@@ -7,6 +7,11 @@ score
                 h4 Lowest Score
         div.row
             div.col.s6
+                div.row
+                    div.col.s6
+                        h5 Username
+                    div.col.s6
+                        h5 Score
                 div(each="{score in topscores}")
                     div.row(
                         each="{id in topscore_id[score]}"
@@ -14,6 +19,11 @@ score
                         div.col.s6 {top10[id].Username}
                         div.col.s6 {top10[id].Score}
             div.col.s6
+                div.row
+                    div.col.s6
+                        h5 Username
+                    div.col.s6
+                        h5 Score
                 div(each="{score in bottomscores}")
                     div.row(
                         each="{id in bottomscore_id[score]}"

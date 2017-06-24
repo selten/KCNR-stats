@@ -34,3 +34,17 @@ class DbCon:
     def get_score_lowest_10(self):
         df = self.get_accounts()
         return df.nsmallest(10, 'Score', 'last')
+
+    def get_kd_highest_10(self):
+        df = self.get_accounts()
+        df = df[df['Kills'] > 10]
+        df = df[df['Deaths'] > 10]
+        df['kd_ratio'] = df['Kills'] / df['Deaths']
+        return df.nlargest(10, 'kd_ratio')
+
+    def get_kd_lowest_10(self):
+        df = self.get_accounts()
+        df = df[df['Kills'] > 10]
+        df = df[df['Deaths'] > 10]
+        df['kd_ratio'] = df['Kills'] / df['Deaths']
+        return df.nsmallest(10, 'kd_ratio', 'last')

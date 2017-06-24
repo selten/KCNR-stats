@@ -55,5 +55,13 @@ def api_get_top_10_score():
 def api_get_bottom_10_score():
     return Response(db.get_score_lowest_10().to_json(orient='index'), mimetype='application/json')
 
+@app.route('/get_top_10_kd')
+def api_get_top_10_kd():
+    return Response(db.get_kd_highest_10().to_json(orient='index'), mimetype='application/json')
+
+@app.route('/get_bottom_10_kd')
+def api_get_bottom_10_kd():
+    return Response(db.get_kd_lowest_10().to_json(orient='index'), mimetype='application/json')
+
 if __name__ == '__main__':
     app.run(debug=True, threaded=True, host='0.0.0.0', port=5003)
