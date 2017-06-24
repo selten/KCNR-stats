@@ -32,7 +32,7 @@ def send_static(staticFile):
     '''serving static files'''
     return send_from_directory('', staticFile)
 
-@app.route('/fonts/<path:path>')
+@app.route('/css/fonts/<path:path>')
 def send_fonts(path):
     '''serving font files'''
     return send_from_directory('static/fonts', path)
@@ -62,6 +62,14 @@ def api_get_top_10_kd():
 @app.route('/get_bottom_10_kd')
 def api_get_bottom_10_kd():
     return Response(db.get_kd_lowest_10().to_json(orient='index'), mimetype='application/json')
+
+@app.route('/get_names')
+def api_get_names():
+    return Response(db.get_names().to_json(orient='values'), mimetype='application/json')
+
+@app.route('/get_player_info/<username>')
+def api_get_player_info(username):
+    return Response(db.get_player_info(username).to_json(orient='index'), mimetype='application/json')
 
 if __name__ == '__main__':
     app.run(debug=True, threaded=True, host='0.0.0.0', port=5003)
