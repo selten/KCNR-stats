@@ -4,3 +4,4 @@ overview
             search
             score
             kill-death
+            cop

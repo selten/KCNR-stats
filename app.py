@@ -6,7 +6,9 @@ import numpy as np
 class DbCon:
     db_conn = None
     db_info_tables = ['Accounts']
-    db_info_fields = {'Accounts': ['Account_ID', 'Username', 'pDonaterRank', 'Score', 'Kills', 'Deaths']}
+    db_info_fields = {'Accounts': ['Account_ID', 'Username', 'pDonaterRank', 'Score', 'Kills', 'Deaths', 'pCoprank',
+                                   'pArrests', 'pTakedowns', 'pArrest_Assists', 'pTimes_Arrested', 'pSWAT_Rank',
+                                   'pJail_Escapes']}
     db_dfs = {}
 
     def __init__(self):
@@ -28,6 +30,14 @@ class DbCon:
     def get_accounts(self):
         if 'Accounts' in self.db_dfs.keys():
             df = self.db_dfs['Accounts']
+            df['Donator'] = np.nan
+            df['Coprank'] = df['pCoprank']
+            df['Arrests'] = df['pArrests']
+            df['Takedowns'] = df['pTakedowns']
+            df['Arrest assists'] = df['pArrest_Assists']
+            df['Times arrested'] = df['pTimes_Arrested']
+            df['SWAT'] = np.nan
+            df['Jail escapes'] = df['pJail_Escapes']
             df['kd_ratio'] = df['Kills'] / df['Deaths']
             return df
         else:
@@ -40,6 +50,14 @@ class DbCon:
     def get_score_lowest_10(self):
         df = self.get_accounts()
         return df.nsmallest(10, 'Score', 'last')
+
+    def get_arrest_highest_10(self):
+        df = self.get_accounts()
+        return df.nlargest(10, 'Arrests')
+
+    def get_arrested_highest_10(self):
+        df = self.get_accounts()
+        return df.nlargest(10, 'Times arrested')
 
     def get_kd_highest_10(self):
         df = self.get_accounts()
@@ -65,7 +83,15 @@ class DbCon:
                 donatorvalues[n] = donatorRanks[i]
             df['Donator'] = donatorvalues
             return df
+
+        def change_swat_values(df):
+            swatvalues = list(df['pSWAT_Rank'])
+            swatRanks = {-2: "Not", -1: "Not", 0: "Private", 1: "Sergeant", 2: "Lieutenant", 3: "Captain", 4: "Major", 5: "Vice Commander", 6: "Commander"}
+            for n, i in enumerate(swatvalues):
+                swatvalues[n] = swatRanks[i]
+            df['SWAT'] = swatvalues
+            return df
         df = self.get_accounts()
-        df['Donator'] = np.nan
         df = change_donator_values(df)
+        df = change_swat_values(df)
         return df[df['Username'] == player]
